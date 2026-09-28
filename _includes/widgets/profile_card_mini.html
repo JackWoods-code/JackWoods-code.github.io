@@ -98,6 +98,14 @@
                         {% endif %}
                     </div>
                 </div>
+
+                <div class="panel-status">
+                    <div class="panel-status-line">
+                        <span class="signal-dot" aria-hidden="true"></span>
+                        papers {{ site.publications.size }} · blogs {{ site.posts.size }}
+                    </div>
+                    <div class="panel-status-line">built {{ site.time | date: "%Y-%m-%d" }}</div>
+                </div>
             </div>
         </div>
     </div>

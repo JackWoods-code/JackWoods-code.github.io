@@ -353,3 +353,126 @@ h2[id] {
     background: var(--accent-color);
     box-shadow: 0 0 0 3px var(--accent-bg);
 }
+
+/* 10. Field Station 阶段二：数据细节与面板铭牌 */
+
+/* 导航：站名等宽化；当前页强调色 + 底部刻度 */
+.navbar-brand {
+    font-family: var(--font-mono);
+}
+
+.navbar .nav-item.active .nav-link {
+    position: relative;
+    color: var(--accent-color) !important;
+    font-weight: 600;
+}
+
+.navbar .nav-item.active .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3px;
+    width: 16px;
+    height: 2px;
+    background: var(--accent-color);
+}
+
+/* 首页 hero：去卡片化，直接落在纸面上 */
+.hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted-color);
+    margin-bottom: 0.75rem;
+}
+
+.hero-bio {
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.hero-bio p {
+    margin-bottom: 0;
+}
+
+/* 观测面板铭牌：真实构建数据 + 信号点 */
+.panel-status {
+    margin-top: 1.25rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-color);
+    letter-spacing: 0.02em;
+}
+
+.panel-status-line {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    line-height: 1.9;
+}
+
+.signal-dot {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    animation: signal-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes signal-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .signal-dot { animation: none; }
+}
+
+/* 论文条目的数据行：期刊/年份、DOI、链接与展开控件均用等宽字体 */
+.pub-meta { font-family: var(--font-mono); font-size: 0.78rem; }
+
+.pub-doi {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-color);
+}
+
+.pub-doi a { color: var(--muted-color); }
+.pub-doi a:hover { color: var(--accent-color); }
+
+.abstract-links a, .abstract-toggle { font-family: var(--font-mono); }
+
+/* 移动端论文卡：封面为顶部横幅图，不再作为背景蒙层 */
+.pub-cover-mobile {
+    max-height: 170px;
+    object-fit: cover;
+}
+
+/* Featured 徽章跟随强调色；深色下换深色文字保证对比 */
+.badge-info {
+    background-color: var(--accent-color) !important;
+    color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .badge-info {
+    color: var(--bg-color) !important;
+}
+
+/* 博客卡标题链接的 text-dark 在深色面板上不可见 */
+[data-theme="dark"] .text-dark {
+    color: var(--heading-color) !important;
+}
+
+/* 404 终端 */
+.terminal-404 {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--muted-color);
+}
+
+.terminal-404 a { color: var(--accent-color); }

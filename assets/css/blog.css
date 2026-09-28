@@ -20,13 +20,13 @@
 
 .blog-content h1 {
     font-size: 2rem;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 0.5rem;
 }
 
 .blog-content h2 {
     font-size: 1.5rem;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.25rem;
 }
 
@@ -49,11 +49,11 @@
 }
 
 .blog-content blockquote {
-    border-left: 3px solid #e0e0e0;
+    border-left: 3px solid var(--border-color);
     padding-left: 1rem;
     margin: 1.5rem 0;
     font-style: italic;
-    color: #6c757d;
+    color: var(--muted-color);
 }
 
 .blog-content img {
@@ -129,7 +129,7 @@
 }
 
 .blog-content table th {
-    background-color: #f8f9fa;
+    background-color: var(--bg-color);
     font-weight: 600;
 }
 
@@ -206,7 +206,7 @@ h1, h2, h3, h4, h5, h6,
     max-height: calc(100vh - 8rem);
     overflow-y: auto;
     padding-left: 0.75rem;
-    border-left: 2px solid #f0f0f0;
+    border-left: 2px solid var(--border-color);
 }
 
 .blog-toc-title {
@@ -214,7 +214,7 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #aaa;
+    color: var(--muted-color);
     margin-bottom: 0.75rem;
 }
 
@@ -232,19 +232,19 @@ h1, h2, h3, h4, h5, h6,
     display: block;
     font-size: 0.8rem;
     line-height: 1.4;
-    color: #999;
+    color: var(--muted-color);
     text-decoration: none;
     padding: 0.15rem 0;
     transition: color 0.2s ease;
 }
 
 .blog-toc-list a:hover {
-    color: #2d3436;
+    color: var(--heading-color);
     text-decoration: none;
 }
 
 .blog-toc-list a.toc-active {
-    color: #212529;
+    color: var(--heading-color);
     font-weight: 600;
 }
 

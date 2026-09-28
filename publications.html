@@ -43,7 +43,7 @@ body_attr: >-
             if (!p) return;
             btn.addEventListener("click", function () {
                 var expanded = p.classList.toggle("expanded");
-                btn.textContent = expanded ? "[show less]" : "[show more]";
+                btn.textContent = expanded ? "[−] collapse" : "[+] expand";
             });
         });
     })();
