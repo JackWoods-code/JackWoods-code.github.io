@@ -1,37 +1,48 @@
 @charset "utf-8";
 
-/* 1. 全局排版 (Typography is King) */
+/* ============================================================
+   Field Station —— 全局设计 token 与基础样式
+   阶段一：IBM Plex 字体、叶绿/磷光 token、面板化（发丝线 + 四角刻度）
+   ============================================================ */
+
+/* 1. 设计 token：浅色为默认，绿色取自叶绿素/NDVI */
 :root {
-    --bg-color: #FAFAFA;
-    --text-color: #333333;
-    --heading-color: #111111;
-    --muted-color: #666666;
-    --border-color: #EAEAEA;
-    --nav-bg: rgba(255, 255, 255, 0.9);
-    --accent-color: #0066cc;
-    --accent-bg: rgba(0, 102, 204, 0.05);
-    --shadow-color: rgba(0, 0, 0, 0.08);
+    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
+
+    --bg-color: #F6F7F4;        /* 冷调纸面 */
+    --panel-color: #FFFFFF;     /* 面板底色 */
+    --text-color: #1B211E;      /* 墨色（带绿底） */
+    --heading-color: #161B18;
+    --muted-color: #5C6660;
+    --border-color: #E3E7E2;    /* 发丝线 */
+    --nav-bg: rgba(255, 255, 255, 0.88);
+    --accent-color: #0E7B43;    /* 叶绿 */
+    --accent-bg: rgba(14, 123, 67, 0.08);
+    --tick-color: #A8B0A9;      /* 面板四角刻度 */
 }
 
 [data-theme="dark"] {
-    --bg-color: #0a0a0a;
-    --text-color: #a1a1aa;
-    --heading-color: #f3f4f6;
-    --muted-color: #71717a;
-    --border-color: #27272a;
-    --nav-bg: rgba(10, 10, 10, 0.9);
-    --accent-color: #3b82f6;
-    --accent-bg: rgba(59, 130, 246, 0.15);
-    --shadow-color: rgba(255, 255, 255, 0.05);
+    --bg-color: #0D110E;
+    --panel-color: #141915;
+    --text-color: #B9C2BB;
+    --heading-color: #E8ECE9;
+    --muted-color: #8A948C;
+    --border-color: #262D27;
+    --nav-bg: rgba(13, 17, 14, 0.88);
+    --accent-color: #3DC97E;    /* 磷光绿 */
+    --accent-bg: rgba(61, 201, 126, 0.12);
+    --tick-color: #4A544D;
 }
 
+/* 2. 全局排版 */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     line-height: 1.75;
     color: var(--text-color);
     padding-top: 5.0rem;
-    background-color: var(--bg-color); /* 轻微区分背景和内容 */
+    background-color: var(--bg-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -42,7 +53,7 @@ body.bg-light {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-weight: 600;
     color: var(--heading-color);
     margin-bottom: 1.5rem;
@@ -54,7 +65,7 @@ h1, h2, h3, h4, h5, h6,
     color: var(--muted-color) !important;
 }
 
-/* 2. 极简导航栏 (Clean Header) */
+/* 3. 导航栏 */
 .navbar {
     background-color: var(--nav-bg) !important;
     backdrop-filter: blur(10px);
@@ -76,20 +87,60 @@ h1, h2, h3, h4, h5, h6,
     text-decoration: underline;
 }
 
+/* 站名（品牌名）不参与链接 hover 效果 */
+a.navbar-brand:hover {
+    text-decoration: none !important;
+}
+
 /* 暗黑模式汉堡菜单图标颜色 */
 [data-theme="dark"] .navbar-toggler {
     color: var(--text-color);
     border-color: var(--border-color);
 }
 
-/* 3. 卡片与布局样式重置 */
-.card {
-    border: none !important;
-    box-shadow: 0 4px 12px var(--shadow-color) !important;
-    background-color: var(--nav-bg) !important;
-    border-radius: 0.8rem !important;
-    margin-bottom: 40px; /* 缩短板块间距 */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+/* 4. 面板：发丝线边框 + 四角取景框刻度（全站唯一的装饰性花活） */
+.card,
+.bg-white.shadow-sm {
+    background-color: var(--panel-color) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: none !important;
+    border-radius: 0.45rem !important;
+    position: relative;
+}
+
+.bg-white {
+    background-color: var(--panel-color) !important;
+}
+
+.card::before,
+.bg-white.shadow-sm::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    bottom: -5px;
+    left: -5px;
+    pointer-events: none;
+    background-image:
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color)),
+        linear-gradient(var(--tick-color), var(--tick-color));
+    background-position:
+        left top, left top,
+        right top, right top,
+        left bottom, left bottom,
+        right bottom, right bottom;
+    background-size:
+        12px 2px, 2px 12px,
+        12px 2px, 2px 12px,
+        12px 2px, 2px 12px,
+        12px 2px, 2px 12px;
+    background-repeat: no-repeat;
 }
 
 .card-body {
@@ -97,16 +148,11 @@ h1, h2, h3, h4, h5, h6,
     padding-right: 1.5rem !important;
 }
 
-/* 去除强制透明背景 */
-.bg-white {
-    background-color: var(--nav-bg) !important;
-}
-
 .border-bottom {
     border-bottom: 1px solid var(--border-color) !important;
 }
 
-/* 4. 品牌色的克制使用 (Accent Color) */
+/* 5. 链接与强调色 */
 a {
     color: var(--accent-color);
     text-decoration: none !important;
@@ -116,11 +162,6 @@ a {
 a:hover {
     color: var(--accent-color);
     text-decoration: underline !important;
-}
-
-/* 站名（品牌名）不参与链接 hover 效果 */
-a.navbar-brand:hover {
-    text-decoration: none !important;
 }
 
 /* 社交图标基础样式 */
@@ -139,40 +180,41 @@ a:has(.fab):hover, a:has(.ai):hover {
     text-decoration: none !important;
 }
 
-/* 社交图标链接悬停：放大并变为科技蓝 */
+/* 社交图标链接悬停：放大并变为强调色 */
 a:has(.fab):hover .fab,
 a:has(.ai):hover .ai {
     transform: scale(1.25);
     color: var(--accent-color) !important;
 }
 
-/* 5. 头像微调 */
+/* 6. 头像：细描边圆环替代投影 */
 .figure-img, .rounded-circle {
     border-radius: 50% !important;
-    border: none !important;
+    border: 1px solid var(--border-color) !important;
     padding: 0 !important;
-    box-shadow: 0 10px 30px var(--shadow-color) !important;
+    box-shadow: none !important;
     background-color: transparent !important;
 }
 
-/* 保留部分原有功能类 */
+/* 7. 功能类 */
 .text-profile-position { font-weight: 400; font-size: 1rem; }
 .text-profile-bio { font-weight: 400; }
-/* 教育/经历/荣誉条目的主名称：与正文同字号、加粗 */
-.item-title {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--text-color);
-}
 .inline-badge { height: 16px; vertical-align: -10%; margin-right: 2px; line-break: unset; }
 .no-break { white-space: nowrap; }
 .cover-image { width: 180px; max-height: 120px; }
 .abstract-body { min-height: 100px; }
 img.lazy, div.lazy { background-image: url('images/loading.gif'); background-repeat: no-repeat; background-position: 50% 50%; background-size: 50px 50px; min-height: 80px; }
 .badge-publication { font-size: 100%; }
-.email-text { font-family: Source Code Pro, monospace; }
+.email-text { font-family: var(--font-mono); }
 
-/* 6. 学术论文摘要（Academic Papers 页） */
+/* 教育/经历/荣誉条目的主名称：与正文同字号、加粗 */
+.item-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* 8. 学术论文摘要（Academic Papers 页） */
 /* 摘要两端对齐，并统一为固定行数截断，超出部分以省略号显示 */
 .publication-abstract {
     text-align: justify;
@@ -193,7 +235,7 @@ img.lazy, div.lazy { background-image: url('images/loading.gif'); background-rep
     user-select: none;
 }
 
-/* 7. 学术论文时间轴（Publications 页） */
+/* 9. 学术论文时间轴（Publications 页） */
 html {
     scroll-behavior: smooth;
 }
@@ -241,14 +283,14 @@ h2[id] {
 
 /* 年份标题：等宽字体 + 论文计数 */
 .pub-year-heading {
-    font-family: 'Source Code Pro', monospace;
+    font-family: var(--font-mono);
     font-size: 1.35rem;
     letter-spacing: 0.06em;
     margin-bottom: 1.1rem;
 }
 
 .pub-year-count {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.8rem;
     font-weight: 400;
     letter-spacing: 0.02em;
@@ -275,7 +317,7 @@ h2[id] {
     color: var(--muted-color) !important;
     background: none !important;
     border-radius: 0;
-    font-family: 'Source Code Pro', monospace;
+    font-family: var(--font-mono);
     font-size: 0.92rem;
     letter-spacing: 0.05em;
     transition: color 0.2s ease;
@@ -311,3 +353,126 @@ h2[id] {
     background: var(--accent-color);
     box-shadow: 0 0 0 3px var(--accent-bg);
 }
+
+/* 10. Field Station 阶段二：数据细节与面板铭牌 */
+
+/* 导航：站名等宽化；当前页强调色 + 底部刻度 */
+.navbar-brand {
+    font-family: var(--font-mono);
+}
+
+.navbar .nav-item.active .nav-link {
+    position: relative;
+    color: var(--accent-color) !important;
+    font-weight: 600;
+}
+
+.navbar .nav-item.active .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3px;
+    width: 16px;
+    height: 2px;
+    background: var(--accent-color);
+}
+
+/* 首页 hero：去卡片化，直接落在纸面上 */
+.hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted-color);
+    margin-bottom: 0.75rem;
+}
+
+.hero-bio {
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.hero-bio p {
+    margin-bottom: 0;
+}
+
+/* 观测面板铭牌：真实构建数据 + 信号点 */
+.panel-status {
+    margin-top: 1.25rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-color);
+    letter-spacing: 0.02em;
+}
+
+.panel-status-line {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    line-height: 1.9;
+}
+
+.signal-dot {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    animation: signal-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes signal-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .signal-dot { animation: none; }
+}
+
+/* 论文条目的数据行：期刊/年份、DOI、链接与展开控件均用等宽字体 */
+.pub-meta { font-family: var(--font-mono); font-size: 0.78rem; }
+
+.pub-doi {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-color);
+}
+
+.pub-doi a { color: var(--muted-color); }
+.pub-doi a:hover { color: var(--accent-color); }
+
+.abstract-links a, .abstract-toggle { font-family: var(--font-mono); }
+
+/* 移动端论文卡：封面为顶部横幅图，不再作为背景蒙层 */
+.pub-cover-mobile {
+    max-height: 170px;
+    object-fit: cover;
+}
+
+/* Featured 徽章跟随强调色；深色下换深色文字保证对比 */
+.badge-info {
+    background-color: var(--accent-color) !important;
+    color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .badge-info {
+    color: var(--bg-color) !important;
+}
+
+/* 博客卡标题链接的 text-dark 在深色面板上不可见 */
+[data-theme="dark"] .text-dark {
+    color: var(--heading-color) !important;
+}
+
+/* 404 终端 */
+.terminal-404 {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--muted-color);
+}
+
+.terminal-404 a { color: var(--accent-color); }

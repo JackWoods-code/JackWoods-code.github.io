@@ -2,8 +2,6 @@
 $(function () {
     lazyLoadOptions = {
         scrollDirection: 'vertical',
-        effect: 'fadeIn',
-        effectTime: 300,
         placeholder: "",
         onError: function(element) {
             console.log('[lazyload] Error loading ' + element.data('src'));
