@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6,
     transition: all 0.2s ease;
 }
 
-.navbar .nav-link:hover, .navbar-brand:hover {
+.navbar .nav-link:hover {
     color: var(--heading-color) !important;
     font-weight: 600;
     text-decoration: underline;
@@ -118,6 +118,11 @@ a:hover {
     text-decoration: underline !important;
 }
 
+/* 站名（品牌名）不参与链接 hover 效果 */
+a.navbar-brand:hover {
+    text-decoration: none !important;
+}
+
 /* 社交图标基础样式 */
 .fab, .ai {
     display: inline-block;
@@ -151,8 +156,14 @@ a:has(.ai):hover .ai {
 }
 
 /* 保留部分原有功能类 */
-.text-profile-position { font-weight: 400; }
+.text-profile-position { font-weight: 400; font-size: 1rem; }
 .text-profile-bio { font-weight: 400; }
+/* 教育/经历/荣誉条目的主名称：与正文同字号、加粗 */
+.item-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-color);
+}
 .inline-badge { height: 16px; vertical-align: -10%; margin-right: 2px; line-break: unset; }
 .no-break { white-space: nowrap; }
 .cover-image { width: 180px; max-height: 120px; }

@@ -1,7 +1,7 @@
 ---
 layout: default
 title : Publications
-navbar_title: Academic Papers
+navbar_title: Publications
 body_attr: >-
   data-spy="scroll" data-target="#navbar-year" data-offset="100"
 ---
@@ -14,7 +14,7 @@ body_attr: >-
             {% for year in pubs_by_year %}
             {% assign num_papers = year.items | size %}
             <section class="pub-year-section">
-                <h2 class="pub-year-heading pt-4" id="year-{{ year.name }}">{{ year.name }}<span class="pub-year-count">{{ num_papers }} paper{% if num_papers > 1 %}s{% endif %}</span></h2>
+                <h2 class="pub-year-heading pt-4" id="year-{{ year.name }}">{{ year.name }}<span class="pub-year-count">{{ num_papers }} Publication{% if num_papers > 1 %}s{% endif %}</span></h2>
                 <div class="my-0 p-0 bg-white shadow-sm rounded-xl">
                     {% for item in year.items %}
                         {% include widgets/publication_item.html item=item hide_bottom_border=forloop.last first=forloop.first last=forloop.last %}
