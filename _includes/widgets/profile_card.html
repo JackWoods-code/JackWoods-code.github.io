@@ -70,6 +70,18 @@
                         </a>
                         {% endif %}
 
+                        {% if site.data.profile.researchgate %}
+                        <a class="pr-3 no-break" target="_blank" href="{{ site.data.profile.researchgate }}">
+                            <i class="ai ai-researchgate"></i> ResearchGate
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.qq_qrcode %}
+                        <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-qq">
+                            <i class="fab fa-qq"></i> QQ
+                        </a>
+                        {% endif %}
+
                         {% if site.data.profile.wechat_qrcode %}
                         <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-wechat">
                             <i class="fab fa-weixin"></i> WeChat
@@ -112,6 +124,21 @@
                 {{ site.data.profile.wechat_prompt }}
             </div>
             {% endif %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if site.data.profile.qq_qrcode %}
+<div class="modal fade" id="modal-qq" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <img src="{{ site.data.profile.qq_qrcode | relative_url }}" class="img-fluid">
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>

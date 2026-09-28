@@ -1,93 +1,302 @@
 @charset "utf-8";
+
+/* 1. 全局排版 (Typography is King) */
+:root {
+    --bg-color: #FAFAFA;
+    --text-color: #333333;
+    --heading-color: #111111;
+    --muted-color: #666666;
+    --border-color: #EAEAEA;
+    --nav-bg: rgba(255, 255, 255, 0.9);
+    --accent-color: #0066cc;
+    --accent-bg: rgba(0, 102, 204, 0.05);
+    --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg-color: #0a0a0a;
+    --text-color: #a1a1aa;
+    --heading-color: #f3f4f6;
+    --muted-color: #71717a;
+    --border-color: #27272a;
+    --nav-bg: rgba(10, 10, 10, 0.9);
+    --accent-color: #3b82f6;
+    --accent-bg: rgba(59, 130, 246, 0.15);
+    --shadow-color: rgba(255, 255, 255, 0.05);
+}
+
 body {
-    font-family: "Lato", sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     font-weight: 400;
+    line-height: 1.75;
+    color: var(--text-color);
     padding-top: 5.0rem;
+    background-color: var(--bg-color); /* 轻微区分背景和内容 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 覆盖 bootstrap 默认 bg-light */
+body.bg-light {
+    background-color: var(--bg-color) !important;
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: 700;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
 }
 
-.card {
-    border-radius: 0.8rem!important;
+/* 辅助信息（日期/引用） */
+.text-muted, .small, em, i {
+    color: var(--muted-color) !important;
 }
 
-.card-img-overlay {
-    border-radius: 0.8rem!important;
-}
-
-.rounded-xl {
-    border-radius: 0.8rem!important;
-}
-
-.rounded-xl-bottom {
-    border-bottom-right-radius: 0.8rem !important;
-    border-bottom-left-radius: 0.8rem !important;
-}
-
-.rounded-xl-top {
-    border-top-left-radius: 0.8rem !important;
-    border-top-right-radius: 0.8rem !important;
-}
-
-
-.text-profile-position {
-    font-weight: 400;
-}
-
-.text-profile-bio {
-    /* font-family: "Raleway"; */
-    font-weight: 400;
-}
-
+/* 2. 极简导航栏 (Clean Header) */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.6) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: var(--nav-bg) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: none !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.inline-badge {
-    height: 16px;
-    vertical-align: -10%;
-    margin-right: 2px;
-    line-break: unset;
+.navbar .nav-link, .navbar-brand {
+    color: var(--text-color) !important;
+    font-weight: 400;
+    transition: all 0.2s ease;
 }
 
-.no-break {
-    white-space: nowrap;
+.navbar .nav-link:hover, .navbar-brand:hover {
+    color: var(--heading-color) !important;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
-.cover-image {
-    width: 180px;
-    max-height: 120px;
+/* 暗黑模式汉堡菜单图标颜色 */
+[data-theme="dark"] .navbar-toggler {
+    color: var(--text-color);
+    border-color: var(--border-color);
 }
 
-.abstract-body {
-    min-height: 100px;
+/* 3. 卡片与布局样式重置 */
+.card {
+    border: none !important;
+    box-shadow: 0 4px 12px var(--shadow-color) !important;
+    background-color: var(--nav-bg) !important;
+    border-radius: 0.8rem !important;
+    margin-bottom: 40px; /* 缩短板块间距 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-img.lazy {
-    background-image: url('images/loading.gif');
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: 50px 50px;
-    min-height: 80px;
+.card-body {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
 }
 
-div.lazy {
-    background-image: url('images/loading.gif');
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: 50px 50px;
-    min-height: 80px;
+/* 去除强制透明背景 */
+.bg-white {
+    background-color: var(--nav-bg) !important;
 }
 
-.badge-publication {
-    font-size: 100%;
+.border-bottom {
+    border-bottom: 1px solid var(--border-color) !important;
 }
 
-.email-text {
-    font-family: Source Code Pro, monospace;
+/* 4. 品牌色的克制使用 (Accent Color) */
+a {
+    color: var(--accent-color);
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+    text-decoration: underline !important;
+}
+
+/* 社交图标基础样式 */
+.fab, .ai {
+    display: inline-block;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* ResearchGate 的 Academicons 字形在同字号下视觉偏小，放大以与其他图标一致 */
+.ai-researchgate {
+    font-size: 1.25em;
+}
+
+/* 社交图标链接悬停：取消下划线 */
+a:has(.fab):hover, a:has(.ai):hover {
+    text-decoration: none !important;
+}
+
+/* 社交图标链接悬停：放大并变为科技蓝 */
+a:has(.fab):hover .fab,
+a:has(.ai):hover .ai {
+    transform: scale(1.25);
+    color: var(--accent-color) !important;
+}
+
+/* 5. 头像微调 */
+.figure-img, .rounded-circle {
+    border-radius: 50% !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: 0 10px 30px var(--shadow-color) !important;
+    background-color: transparent !important;
+}
+
+/* 保留部分原有功能类 */
+.text-profile-position { font-weight: 400; }
+.text-profile-bio { font-weight: 400; }
+.inline-badge { height: 16px; vertical-align: -10%; margin-right: 2px; line-break: unset; }
+.no-break { white-space: nowrap; }
+.cover-image { width: 180px; max-height: 120px; }
+.abstract-body { min-height: 100px; }
+img.lazy, div.lazy { background-image: url('images/loading.gif'); background-repeat: no-repeat; background-position: 50% 50%; background-size: 50px 50px; min-height: 80px; }
+.badge-publication { font-size: 100%; }
+.email-text { font-family: Source Code Pro, monospace; }
+
+/* 6. 学术论文摘要（Academic Papers 页） */
+/* 摘要两端对齐，并统一为固定行数截断，超出部分以省略号显示 */
+.publication-abstract {
+    text-align: justify;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+}
+
+/* 点击 [show more] 后展开完整摘要 */
+.publication-abstract.expanded {
+    -webkit-line-clamp: unset;
+}
+
+/* [show more] / [show less] 切换控件 */
+.abstract-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 7. 学术论文时间轴（Publications 页） */
+html {
+    scroll-behavior: smooth;
+}
+
+h2[id] {
+    scroll-margin-top: 5.5rem;
+}
+
+/* 内容区：贯穿各年份的竖向时间轴 */
+.pub-timeline {
+    position: relative;
+    padding-left: 2.25rem;
+}
+
+.pub-timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 3rem;
+    bottom: 2rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-color), var(--border-color) 30%);
+    opacity: 0.55;
+    border-radius: 1px;
+}
+
+/* 年份节点：轴线上的空心圆点（左移 2.25rem 使圆心与竖线对齐） */
+.pub-year-section {
+    position: relative;
+}
+
+.pub-year-section::before {
+    content: "";
+    position: absolute;
+    left: -2.25rem;
+    top: 2rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 0 0 4px var(--accent-bg);
+    z-index: 1;
+}
+
+/* 年份标题：等宽字体 + 论文计数 */
+.pub-year-heading {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.1rem;
+}
+
+.pub-year-count {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--muted-color);
+    margin-left: 0.8rem;
+    vertical-align: 0.15em;
+}
+
+/* 右侧年份导航：与时间轴呼应的点线样式 */
+#navbar-year::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: var(--border-color);
+}
+
+#navbar-year .nav-link {
+    position: relative;
+    padding: 0.3rem 0 0.3rem 1.6rem;
+    margin-bottom: 0.25rem;
+    color: var(--muted-color) !important;
+    background: none !important;
+    border-radius: 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.92rem;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+}
+
+#navbar-year .nav-link::before {
+    content: "";
+    position: absolute;
+    left: 5.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#navbar-year .nav-link:hover {
+    color: var(--heading-color) !important;
+}
+
+#navbar-year .nav-link:hover::before {
+    background: var(--accent-color);
+}
+
+#navbar-year .nav-link.active {
+    color: var(--accent-color) !important;
+    font-weight: 600;
+}
+
+#navbar-year .nav-link.active::before {
+    background: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-bg);
 }

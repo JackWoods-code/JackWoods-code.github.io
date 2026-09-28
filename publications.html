@@ -1,7 +1,7 @@
 ---
 layout: default
 title : Publications
-navbar_title: Publications
+navbar_title: Academic Papers
 body_attr: >-
   data-spy="scroll" data-target="#navbar-year" data-offset="100"
 ---
@@ -10,15 +10,19 @@ body_attr: >-
 
 <div class="row">
     <div class="col-12 col-lg-10">
-        {% for year in pubs_by_year %}
-        {% assign num_papers = year.items | size %}
-        <h2 class="pt-4" id="year-{{ year.name }}">{{ year.name }}</h2>
-        <div class="my-0 p-0 bg-white shadow-sm rounded-xl">
-            {% for item in year.items %}
-                {% include widgets/publication_item.html item=item hide_bottom_border=forloop.last first=forloop.first last=forloop.last %}
+        <div class="pub-timeline">
+            {% for year in pubs_by_year %}
+            {% assign num_papers = year.items | size %}
+            <section class="pub-year-section">
+                <h2 class="pub-year-heading pt-4" id="year-{{ year.name }}">{{ year.name }}<span class="pub-year-count">{{ num_papers }} paper{% if num_papers > 1 %}s{% endif %}</span></h2>
+                <div class="my-0 p-0 bg-white shadow-sm rounded-xl">
+                    {% for item in year.items %}
+                        {% include widgets/publication_item.html item=item hide_bottom_border=forloop.last first=forloop.first last=forloop.last %}
+                    {% endfor %}
+                </div>
+            </section>
             {% endfor %}
         </div>
-        {% endfor %}
     </div>
 
     <div class="col-2 d-none d-lg-block">
@@ -30,3 +34,17 @@ body_attr: >-
     </div>
 
 </div>
+
+<script>
+    // 论文摘要 [show more] / [show less]：点击展开完整摘要，再次点击收起
+    (function () {
+        document.querySelectorAll(".abstract-toggle").forEach(function (btn) {
+            var p = btn.parentElement.querySelector(".publication-abstract");
+            if (!p) return;
+            btn.addEventListener("click", function () {
+                var expanded = p.classList.toggle("expanded");
+                btn.textContent = expanded ? "[show less]" : "[show more]";
+            });
+        });
+    })();
+</script>
