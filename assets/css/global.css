@@ -205,7 +205,6 @@ a:has(.ai):hover .ai {
 .cover-image { width: 180px; max-height: 120px; }
 .abstract-body { min-height: 100px; }
 img.lazy, div.lazy { background-image: url('images/loading.gif'); background-repeat: no-repeat; background-position: 50% 50%; background-size: 50px 50px; min-height: 80px; }
-.badge-publication { font-size: 100%; }
 .email-text { font-family: var(--font-mono); }
 
 /* 教育/经历/荣誉条目的主名称：与正文同字号、加粗 */
@@ -478,14 +477,21 @@ h2[id] {
     object-fit: cover;
 }
 
-/* Featured 徽章跟随强调色；深色下换深色文字保证对比 */
-.badge-info {
-    background-color: var(--accent-color) !important;
-    color: #FFFFFF !important;
+/* 引用数徽章：与 journal-metric 同款灰底小徽章（badge-light），是链接，悬停时
+   文字转强调色并泛出 accent-bg 底色提示可点；S2 图标随徽章字号缩放 */
+a.citation-metric {
+    display: inline-block;
 }
 
-[data-theme="dark"] .badge-info {
-    color: var(--bg-color) !important;
+a.citation-metric .ai {
+    font-size: 1.2em;
+    vertical-align: -0.08em;
+}
+
+a.citation-metric:hover {
+    text-decoration: none !important;
+    color: var(--accent-color) !important;
+    background-color: var(--accent-bg);
 }
 
 /* 博客卡标题链接的 text-dark 在深色面板上不可见 */

@@ -47,9 +47,9 @@ let showSemanticScholarCitationCount = () => {
                 const n = parseInt(citationCount);
                 if (isNaN(n)) return;
                 if (reducedMotion) {
-                    element.innerHTML = `<a class="badge badge-pill badge-publication badge-info" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> ${n.toLocaleString()} citations</a>`;
+                    element.innerHTML = `<a class="badge badge-light journal-metric citation-metric" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> ${n.toLocaleString()} citations</a>`;
                 } else {
-                    element.innerHTML = `<a class="badge badge-pill badge-publication badge-info" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> <span class="citation-count">0</span> citations</a>`;
+                    element.innerHTML = `<a class="badge badge-light journal-metric citation-metric" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> <span class="citation-count">0</span> citations</a>`;
                     const numEl = element.querySelector('.citation-count');
                     if (numEl) countUp(numEl, n);
                 }
