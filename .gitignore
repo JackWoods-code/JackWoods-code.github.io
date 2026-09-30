@@ -8,3 +8,6 @@ vendor/
 Gemfile.lock
 
 .DS_Store
+
+# 本地手稿/模板（用户自存，不入库不上线）
+Blogs/
