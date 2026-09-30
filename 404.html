@@ -7,3 +7,37 @@ title: 404 - Page Not Found
     <p class="mb-2">the requested page does not exist or has been moved.</p>
     <p class="mb-0">&gt; <a href="{{ '/' | relative_url }}">return home</a></p>
 </div>
+<script>
+    // 终端打字机：前两行逐字打出，最后带链接的提示行随后浮现（链接保持完整不参与打字）。
+    // 无 JS（缺 .js 门控类）或 prefers-reduced-motion 时脚本直接退出，文本原样显示。
+    (function () {
+        var box = document.querySelector('.terminal-404');
+        if (!box || !document.documentElement.classList.contains('js')) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        box.classList.add('typewrite');
+        var lines = [box.children[0], box.children[1]];
+        var texts = lines.map(function (el) { return el.textContent; });
+
+        function typeLine(el, text, done) {
+            el.classList.add('typing');
+            var i = 0;
+            (function step() {
+                el.textContent = text.slice(0, ++i);
+                if (i < text.length) {
+                    setTimeout(step, 12 + Math.random() * 28);
+                } else {
+                    el.classList.remove('typing');
+                    el.classList.add('is-typed');
+                    done();
+                }
+            })();
+        }
+
+        typeLine(lines[0], texts[0], function () {
+            typeLine(lines[1], texts[1], function () {
+                box.classList.add('is-ready');
+            });
+        });
+    })();
+</script>

@@ -24,6 +24,18 @@ semanticScholarIds.forEach(id => {
 });
 
 let showSemanticScholarCitationCount = () => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 仪器读数：引用数徽章渲染时从 0 滚动到目标值（reduced-motion 直接显示）
+    const countUp = (numEl, target) => {
+        const duration = 700;
+        const start = performance.now();
+        const ease = t => 1 - Math.pow(1 - t, 3);
+        (function frame(now) {
+            const p = Math.min((now - start) / duration, 1);
+            numEl.textContent = Math.round(target * ease(p)).toLocaleString();
+            if (p < 1) requestAnimationFrame(frame);
+        })(start);
+    };
     // Update the DOM with the cached citation counts
     semanticScholarIds.forEach(id => {
         const cacheKey = `semanticScholarCitationCount:${id}`;
@@ -32,7 +44,15 @@ let showSemanticScholarCitationCount = () => {
             const { citationCount } = JSON.parse(cachedData);
             const elements = document.querySelectorAll(`[data-semantic-scholar-id="${id}"]`);
             elements.forEach(element => {
-                element.innerHTML = `<a class="badge badge-pill badge-publication badge-info" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> ${parseInt(citationCount).toLocaleString()} citations</a>`;
+                const n = parseInt(citationCount);
+                if (isNaN(n)) return;
+                if (reducedMotion) {
+                    element.innerHTML = `<a class="badge badge-pill badge-publication badge-info" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> ${n.toLocaleString()} citations</a>`;
+                } else {
+                    element.innerHTML = `<a class="badge badge-pill badge-publication badge-info" href="https://www.semanticscholar.org/paper/${id}" target="_blank"><i class="ai ai-semantic-scholar"></i> <span class="citation-count">0</span> citations</a>`;
+                    const numEl = element.querySelector('.citation-count');
+                    if (numEl) countUp(numEl, n);
+                }
             });
         }
     });

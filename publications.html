@@ -13,7 +13,7 @@ body_attr: >-
         <div class="pub-timeline">
             {% for year in pubs_by_year %}
             {% assign num_papers = year.items | size %}
-            <section class="pub-year-section">
+            <section class="pub-year-section reveal">
                 <h2 class="pub-year-heading pt-4" id="year-{{ year.name }}">{{ year.name }}<span class="pub-year-count">{{ num_papers }} Publication{% if num_papers > 1 %}s{% endif %}</span></h2>
                 <div class="my-0 p-0 bg-white shadow-sm rounded-xl">
                     {% for item in year.items %}
@@ -36,14 +36,48 @@ body_attr: >-
 </div>
 
 <script>
-    // 论文摘要 [show more] / [show less]：点击展开完整摘要，再次点击收起
+    // 论文摘要 [show more] / [show less]：点击展开完整摘要，再次点击收起。
+    // 动效：用 max-height 过渡展示展开/收起过程（初末高度由 JS 实测，
+    // 基础截断仍靠 -webkit-line-clamp，行数不变）；reduced-motion 时直接切换。
     (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         document.querySelectorAll(".abstract-toggle").forEach(function (btn) {
             var p = btn.parentElement.querySelector(".publication-abstract");
             if (!p) return;
+            // 记录收起态（4 行截断）的渲染高度，作为收起动画的终点
+            if (!p.dataset.clampedH) {
+                p.dataset.clampedH = Math.round(p.getBoundingClientRect().height);
+            }
             btn.addEventListener("click", function () {
-                var expanded = p.classList.toggle("expanded");
-                btn.textContent = expanded ? "[−] collapse" : "[+] expand";
+                var expanded = p.classList.contains("expanded");
+                if (reduced) {
+                    p.classList.toggle("expanded");
+                    btn.textContent = expanded ? "[+] expand" : "[−] collapse";
+                    return;
+                }
+                // 过渡结束后清理内联 max-height，交还给 line-clamp/自然高度
+                var onEnd = function (e) {
+                    if (e.propertyName !== "max-height") return;
+                    p.style.maxHeight = "";
+                    p.classList.remove("abstract-anim");
+                    p.removeEventListener("transitionend", onEnd);
+                };
+                if (!expanded) {
+                    p.dataset.clampedH = Math.round(p.getBoundingClientRect().height);
+                    p.style.maxHeight = p.dataset.clampedH + "px";
+                    p.classList.add("expanded", "abstract-anim");
+                    void p.offsetHeight; // 先应用起始高度，再过渡到完整高度
+                    p.style.maxHeight = p.scrollHeight + "px";
+                    btn.textContent = "[−] collapse";
+                } else {
+                    p.style.maxHeight = p.scrollHeight + "px";
+                    p.classList.add("abstract-anim");
+                    void p.offsetHeight;
+                    p.classList.remove("expanded");
+                    p.style.maxHeight = p.dataset.clampedH + "px";
+                    btn.textContent = "[+] expand";
+                }
+                p.addEventListener("transitionend", onEnd);
             });
         });
     })();

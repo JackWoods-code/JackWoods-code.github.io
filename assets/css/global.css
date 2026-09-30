@@ -83,7 +83,8 @@ h1, h2, h3, h4, h5, h6,
 
 .navbar .nav-link:hover {
     color: var(--heading-color) !important;
-    font-weight: 600;
+    /* 不再做 font-weight 跳变：会引起文字宽度回流抖动；
+       下划线动效见第 11 节（reduced-motion 时退化为原生 underline） */
     text-decoration: underline;
 }
 
@@ -531,4 +532,208 @@ h2[id] {
     color: var(--accent-color);
     opacity: 1;
     transform: rotate(0deg);
+}
+
+/* ============================================================
+   11. Field Station 动效层
+   设计原则：全部动效包在 prefers-reduced-motion: no-preference 内；
+   "初始隐藏"的规则一律挂 .js 门控（head 内联脚本添加），无 JS 时内容完整可见；
+   motion.js 异常时回退 .motion-off，强制还原显示。
+   ============================================================ */
+
+/* 跨文档 View Transitions：支持的浏览器获得页面间淡入转场，零 JS */
+@view-transition {
+    navigation: auto;
+}
+
+/* 兜底还原：JS 动效层失效（脚本未加载 / 不支持 / reduced-motion）时强制显示 */
+.motion-off .reveal,
+.motion-off [data-boot] {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.motion-off [data-boot] .panel-status {
+    opacity: 1 !important;
+}
+
+.motion-off [data-boot]:not(.is-booted) .signal-dot {
+    animation: signal-pulse 3.2s ease-in-out infinite;
+    opacity: 1;
+}
+
+.motion-off .pub-timeline::before {
+    transform: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+    /* --- 首页加载序列：面板依次"上电" --- */
+    .js [data-boot] {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .js [data-boot].is-booted {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity 0.5s ease var(--d, 0ms),
+            transform 0.55s cubic-bezier(0.22, 0.7, 0.3, 1) var(--d, 0ms);
+    }
+
+    /* 四角刻度随面板点亮滑入锁定（最后落位，形成"快门"感） */
+    .js [data-boot]::before {
+        opacity: 0;
+    }
+
+    .js [data-boot].is-booted::before {
+        opacity: 1;
+        transition:
+            background-position 0.3s ease,
+            opacity 0.45s ease calc(var(--d, 0ms) + 120ms);
+    }
+
+    /* 观测铭牌最后浮现，signal-dot 待面板上电后才开始脉冲 */
+    .js [data-boot] .panel-status {
+        opacity: 0;
+    }
+
+    .js [data-boot].is-booted .panel-status {
+        opacity: 1;
+        transition: opacity 0.5s ease calc(var(--d, 0ms) + 260ms);
+    }
+
+    .js [data-boot]:not(.is-booted) .signal-dot {
+        animation: none;
+        opacity: 0.3;
+    }
+
+    /* --- 滚动揭示（仅用于 section 级区块，不做逐卡片） --- */
+    .js .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    .js .reveal.is-inview {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity 0.55s ease var(--d, 0ms),
+            transform 0.55s cubic-bezier(0.22, 0.7, 0.3, 1) var(--d, 0ms);
+    }
+
+    /* --- Publications 时间轴：竖线随滚动向下绘制 --- */
+    .js .pub-timeline::before {
+        transform: scaleY(var(--tl-progress, 0));
+        transform-origin: top;
+    }
+
+    /* 年份节点滚入视口时"锁定"脉冲一次 */
+    .js .pub-year-section.is-inview::before {
+        animation: node-lock 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    }
+
+    @keyframes node-lock {
+        0% { transform: scale(0.4); opacity: 0; }
+        60% { transform: scale(1.12); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* --- 面板 hover：四角刻度向外微扩 2px，边框向强调色偏移 --- */
+    .card::before,
+    .bg-white.shadow-sm::before {
+        transition: background-position 0.3s ease;
+    }
+
+    .card,
+    .bg-white.shadow-sm {
+        transition: border-color 0.3s ease;
+    }
+
+    .card:hover,
+    .bg-white.shadow-sm:hover {
+        /* !important 用于压过第 4 节面板基础样式的 border !important */
+        border-color: color-mix(in srgb, var(--accent-color) 30%, var(--border-color)) !important;
+    }
+
+    .card:hover::before,
+    .bg-white.shadow-sm:hover::before {
+        background-position:
+            -2px top, left -2px,
+            calc(100% + 2px) top, right -2px,
+            -2px bottom, left calc(100% + 2px),
+            calc(100% + 2px) bottom, right calc(100% + 2px);
+    }
+
+    /* --- 导航链接：强调色下划线从左滑入（替代原生 underline 跳变） --- */
+    .navbar .nav-link {
+        background-image: linear-gradient(var(--accent-color), var(--accent-color));
+        background-repeat: no-repeat;
+        background-size: 0% 2px;
+        background-position: left calc(100% - 3px);
+        transition: background-size 0.25s ease, color 0.2s ease;
+    }
+
+    .navbar .nav-link:hover {
+        text-decoration: none !important;
+        background-size: 100% 2px;
+    }
+
+    /* 正文内箭头链接（Read more / All publications）同款下划线 */
+    .arrow-link {
+        background-image: linear-gradient(var(--accent-color), var(--accent-color));
+        background-repeat: no-repeat;
+        background-size: 0% 1px;
+        background-position: left calc(100% - 1px);
+        transition: background-size 0.25s ease;
+    }
+
+    .arrow-link:hover {
+        text-decoration: none !important;
+        background-size: 100% 1px;
+    }
+
+    /* --- 主题切换图标：旋钮式翻转过渡（角度由 JS 累加） --- */
+    #theme-icon {
+        display: inline-block;
+        transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.3, 1);
+    }
+
+    /* --- Abstract 展开/收起：max-height 过渡（JS 测量高度） --- */
+    .publication-abstract.abstract-anim {
+        transition: max-height 0.35s ease;
+    }
+
+    /* --- 404 终端打字机 --- */
+    .js .terminal-404.typewrite p:not(:last-child) {
+        visibility: hidden;
+    }
+
+    .js .terminal-404.typewrite p.typing,
+    .js .terminal-404.typewrite p.is-typed {
+        visibility: visible;
+    }
+
+    .js .terminal-404.typewrite p:last-child {
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .js .terminal-404.typewrite.is-ready p:last-child {
+        opacity: 1;
+        transform: none;
+    }
+
+    .terminal-404 p.typing::after {
+        content: "▊";
+        margin-left: 2px;
+        color: var(--accent-color);
+        animation: caret-blink 1s steps(1) infinite;
+    }
+
+    @keyframes caret-blink {
+        50% { opacity: 0; }
+    }
 }
