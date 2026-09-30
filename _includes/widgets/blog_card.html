@@ -3,7 +3,10 @@
 {% assign first = include.first %}
 {% assign last = include.last %}
 
-<div class="border-bottom border-gray p-3 {% if hide_bottom_border %}border-0{% endif %}">
+<div class="border-bottom border-gray p-3 {% if hide_bottom_border %}border-0{% endif %} blog-card">
+    <button class="blog-pin-btn" type="button" data-pin-url="{{ item.url | relative_url }}" aria-pressed="false" title="置顶这篇博客" aria-label="置顶这篇博客">
+        <i class="fas fa-thumbtack"></i>
+    </button>
     <div class="row">
         <div class="col-12">
             <h5 class="mb-2">

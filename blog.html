@@ -30,3 +30,99 @@ body_attr: >-
     </div>
 
 </div>
+
+<script>
+    // 置顶功能：点击卡片右上角图钉，把该文移动到页面顶部「置顶」分区。
+    // 状态存于 localStorage（仅当前浏览器生效）；点击同一图钉可取消置顶。
+    (function () {
+        var STORAGE_KEY = 'blog-pinned-posts';
+        var listCol = document.querySelector('.col-12.col-lg-10');
+        if (!listCol) return;
+
+        function getPinned() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+            catch (e) { return []; }
+        }
+
+        // 原始 DOM 快照，每次重排都从它出发，保证可逆
+        var snapshot = listCol.cloneNode(true);
+
+        function refreshPinButtons(root) {
+            var pinned = getPinned();
+            root.querySelectorAll('.blog-pin-btn').forEach(function (btn) {
+                var isPinned = pinned.indexOf(btn.getAttribute('data-pin-url')) !== -1;
+                btn.classList.toggle('pinned', isPinned);
+                btn.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
+            });
+        }
+
+        function arrange() {
+            var pinned = getPinned();
+            var fresh = snapshot.cloneNode(true);
+
+            // 收集卡片节点（appendChild 会把节点从 fresh 中移走）
+            var cards = {};
+            fresh.querySelectorAll('.blog-pin-btn').forEach(function (btn) {
+                cards[btn.getAttribute('data-pin-url')] = btn.closest('.blog-card');
+            });
+
+            listCol.innerHTML = '';
+
+            // 置顶分区
+            var pinnedCards = pinned.filter(function (u) { return cards[u]; });
+            if (pinnedCards.length) {
+                var h = document.createElement('h2');
+                h.className = 'pt-4';
+                h.id = 'year-pinned';
+                h.textContent = '置顶';
+                var panel = document.createElement('div');
+                panel.className = 'my-0 p-0 bg-white shadow-sm rounded-xl';
+                pinnedCards.forEach(function (u) { panel.appendChild(cards[u]); });
+                listCol.appendChild(h);
+                listCol.appendChild(panel);
+            }
+
+            // 年份分区：卡片被全部置顶的年份整组隐藏
+            // （注意 children 是活集合，必须遍历静态副本，否则移动节点时会跳项）
+            Array.prototype.slice.call(fresh.children).forEach(function (child) {
+                if (child.matches('h2[id^="year-"]')) {
+                    var panel = child.nextElementSibling;
+                    if (panel && panel.querySelector('.blog-card')) {
+                        listCol.appendChild(child);
+                        listCol.appendChild(panel);
+                    }
+                }
+            });
+
+            // 右侧章节导航与列表同步（重建链接，元素 id 不变以兼容 scrollspy）
+            var oldNav = document.getElementById('navbar-year');
+            if (oldNav) {
+                var nav = oldNav.cloneNode(false);
+                listCol.querySelectorAll('h2[id]').forEach(function (h2) {
+                    var a = document.createElement('a');
+                    a.className = 'nav-link d-block';
+                    a.href = '#' + h2.id;
+                    a.textContent = h2.textContent;
+                    nav.appendChild(a);
+                });
+                oldNav.parentNode.replaceChild(nav, oldNav);
+            }
+
+            refreshPinButtons(listCol);
+        }
+
+        listCol.addEventListener('click', function (e) {
+            var btn = e.target.closest('.blog-pin-btn');
+            if (!btn) return;
+            e.preventDefault();
+            var url = btn.getAttribute('data-pin-url');
+            var pinned = getPinned();
+            var idx = pinned.indexOf(url);
+            if (idx === -1) { pinned.unshift(url); } else { pinned.splice(idx, 1); }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(pinned)); } catch (err) {}
+            arrange();
+        });
+
+        arrange();
+    })();
+</script>

@@ -1,4 +1,4 @@
-{% assign news_by_year = site.news | sort: "date" | reverse | slice: 0, include.limit | group_by_exp: "item", "item.date | date: '%Y'" -%}
+{% assign posts_by_year = site.posts | sort: "date" | reverse | slice: 0, include.limit | group_by_exp: "item", "item.date | date: '%Y'" -%}
 
 <div class="row mt-3">
     <div class="col">
@@ -7,14 +7,14 @@
                 <div class="mx-2 my-1">
                     <h6 class="border-bottom border-gray pb-2 mb-3">Blogs</h6>
                     <div class="small">
-                        {% for year in news_by_year %}
+                        {% for year in posts_by_year %}
                         <div class="media py-1 {% if forloop.first == false %}border-top border-gray{% endif %}">
                             <div class="mr-3 text-muted my-1">{{ year.name }}</div>
                             <div class="media-body">
                                 {% for item in year.items %}
                                 <div class="my-1 d-flex">
-                                    <div>{{ item.title }}</div>
-                                    <div class="ml-auto mt-auto text-muted no-break"><i>{{ item.date | date: "%b %d" }}</i></div>
+                                    <div><a href="{{ item.url | relative_url }}" class="text-dark">{{ item.title }}</a></div>
+                                    <div class="ml-auto mt-auto text-muted no-break"><span class="pub-meta">{{ item.date | date: "%Y-%m-%d" }}</span></div>
                                 </div>
                                 {% endfor %}
                             </div>

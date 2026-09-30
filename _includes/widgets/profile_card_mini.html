@@ -7,12 +7,10 @@
                         {% if site.data.profile.portrait_url %}
                         <!-- When the screen is wider than md, float the portrait on the right -->
                         <div class="figure d-none d-md-block">
-                            <img 
-                                src="{{ site.data.profile.portrait_url | relative_url }}" 
-                                class="figure-img img-fluid" 
-                                data-toggle="tooltip" 
-                                data-placement="top" 
-                                title="{{ site.data.profile.portrait_caption }}">
+                            <img
+                                src="{{ site.data.profile.portrait_url | relative_url }}"
+                                class="figure-img img-fluid"
+                                alt="{{ site.data.profile.primary_name }}">
                         </div>
                         <div class="mb-3 d-md-none text-center">
                             <img src="{{ site.data.profile.portrait_url | relative_url }}" class="rounded-circle" style="max-width: 50%;" alt="Portrait">
@@ -102,9 +100,15 @@
                 <div class="panel-status">
                     <div class="panel-status-line">
                         <span class="signal-dot" aria-hidden="true"></span>
-                        papers {{ site.publications.size }} · blogs {{ site.posts.size }}
+                        <span class="panel-status-value">245.9</span> Research Interest Score
                     </div>
-                    <div class="panel-status-line">built {{ site.time | date: "%Y-%m-%d" }}</div>
+                    <div class="panel-status-line"><span class="panel-status-dot" aria-hidden="true"></span><span class="panel-status-value">163</span> Citations</div>
+                    <div class="panel-status-line"><span class="panel-status-dot" aria-hidden="true"></span><span class="panel-status-value">7</span> h-index</div>
+                </div>
+
+                <div class="panel-motto">
+                    <div class="panel-motto-title">Personal Motto</div>
+                    <div class="panel-motto-text">&ldquo;Don't overfit the past; generalize to the future.&rdquo;</div>
                 </div>
             </div>
         </div>

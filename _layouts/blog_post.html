@@ -54,6 +54,28 @@
                         {{ content }}
                     </div>
                 </article>
+
+                {% comment %} 上一篇 / 下一篇：按发布时间排序，previous 为更早一篇 {% endcomment %}
+                {% if page.previous or page.next %}
+                <nav class="post-nav row no-gutters" aria-label="博客导航">
+                    <div class="col-12 col-md-6 mb-2 mb-md-0 pr-md-2">
+                        {% if page.previous %}
+                        <a class="post-nav-link" href="{{ page.previous.url | relative_url }}">
+                            <span class="post-nav-label">← 上一篇</span>
+                            <span class="post-nav-title">{{ page.previous.title }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 pl-md-2">
+                        {% if page.next %}
+                        <a class="post-nav-link post-nav-next" href="{{ page.next.url | relative_url }}">
+                            <span class="post-nav-label">下一篇 →</span>
+                            <span class="post-nav-title">{{ page.next.title }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </nav>
+                {% endif %}
             </div>
             <div class="blog-toc-sidebar">
                 <nav id="blog-toc" class="blog-toc-nav">
@@ -63,8 +85,6 @@
             </div>
         </div>
     </main>
-
-    {% include footer.html %}
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

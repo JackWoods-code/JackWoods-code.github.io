@@ -1,14 +1,18 @@
 <div class="mt-3 d-md-none"></div>
-<div class="hero-block">
-    <div class="hero-kicker">
-        {% for position in site.data.profile.positions %}{{ position.name | downcase }}{% unless forloop.last %} · {% endunless %}{% endfor %}
+<div class="row">
+    <div class="col">
+        <div class="card border-0 shadow-sm bg-white">
+            <div class="card-body p-4">
+                <h6 class="border-bottom border-gray pb-2 mb-3">Research Interests</h6>
+                <div class="hero-bio" {% if site.data.profile.short_bio_text_justify %}style="text-align: justify;"{% endif %}>
+                    {{ site.data.profile.short_bio }}
+                </div>
+                {% if site.data.profile.cv_link %}
+                <div class="mt-2">
+                    <a target="_blank" href="{{ site.data.profile.cv_link | relative_url }}"><i class="fas fa-file-alt"></i> Curriculum Vitae</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="hero-bio" {% if site.data.profile.short_bio_text_justify %}style="text-align: justify;"{% endif %}>
-        {{ site.data.profile.short_bio }}
-    </div>
-    {% if site.data.profile.cv_link %}
-    <div class="mt-2">
-        <a target="_blank" href="{{ site.data.profile.cv_link | relative_url }}"><i class="fas fa-file-alt"></i> Curriculum Vitae</a>
-    </div>
-    {% endif %}
 </div>

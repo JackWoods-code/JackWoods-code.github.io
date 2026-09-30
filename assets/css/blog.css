@@ -264,3 +264,48 @@ h1, h2, h3, h4, h5, h6,
 .blog-toc-nav {
     scrollbar-width: none;
 }
+
+/* 上一篇 / 下一篇 导航 */
+.post-nav {
+    margin-top: 1.5rem;
+}
+
+.post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    height: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--panel-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.45rem;
+    transition: border-color 0.2s ease;
+}
+
+.post-nav-link:hover {
+    border-color: var(--accent-color);
+    text-decoration: none !important;
+}
+
+.post-nav-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-color);
+    letter-spacing: 0.02em;
+}
+
+.post-nav-title {
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.post-nav-link:hover .post-nav-title {
+    color: var(--accent-color);
+}
+
+.post-nav-link.post-nav-next {
+    align-items: flex-end;
+    text-align: right;
+}

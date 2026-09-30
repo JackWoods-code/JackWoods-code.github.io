@@ -378,25 +378,7 @@ h2[id] {
     background: var(--accent-color);
 }
 
-/* 首页 hero：去卡片化，直接落在纸面上 */
-.hero-kicker {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--muted-color);
-    margin-bottom: 0.75rem;
-}
-
-.hero-bio {
-    font-size: 1.08rem;
-    line-height: 1.8;
-    color: var(--text-color);
-}
-
-.hero-bio p {
-    margin-bottom: 0;
-}
-
-/* 观测面板铭牌：真实构建数据 + 信号点 */
+/* 观测面板铭牌：等宽小字，数值加强调色层次 */
 .panel-status {
     margin-top: 1.25rem;
     padding-top: 0.9rem;
@@ -405,6 +387,42 @@ h2[id] {
     font-size: 0.72rem;
     color: var(--muted-color);
     letter-spacing: 0.02em;
+}
+
+.panel-status-value {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.panel-status-dot {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted-color);
+}
+
+/* 个人格言：面板最底部 */
+.panel-motto {
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.panel-motto-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted-color);
+    margin-bottom: 0.35rem;
+}
+
+.panel-motto-text {
+    font-style: italic;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--text-color);
 }
 
 .panel-status-line {
@@ -482,3 +500,35 @@ h2[id] {
 }
 
 .terminal-404 a { color: var(--accent-color); }
+
+/* 博客卡片置顶图钉（Blogs 列表页；样式放 global 是因为列表页用 default 布局） */
+.blog-card {
+    position: relative;
+}
+
+.blog-pin-btn {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    z-index: 1;
+    background: transparent;
+    border: none;
+    color: var(--muted-color);
+    opacity: 0.55;
+    font-size: 0.9rem;
+    padding: 0.15rem 0.3rem;
+    cursor: pointer;
+    transform: rotate(45deg);
+    transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.blog-pin-btn:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.blog-pin-btn.pinned {
+    color: var(--accent-color);
+    opacity: 1;
+    transform: rotate(0deg);
+}

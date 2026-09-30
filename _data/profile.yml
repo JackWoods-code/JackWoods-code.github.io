@@ -12,7 +12,7 @@ wechat_qrcode: /assets/images/QR Code/微信.png
 github: JackWoods-code
 researchgate: https://www.researchgate.net/profile/Jingyu-Wang-69
 
-short_bio_text_justify: false
+short_bio_text_justify: true
 short_bio: >-
   <p>
     The research primarily focuses on 
