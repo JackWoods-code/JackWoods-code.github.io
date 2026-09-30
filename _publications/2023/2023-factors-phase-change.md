@@ -6,6 +6,7 @@ cover:         /assets/images/covers/land-use-policy.jpg
 pub:            "Land Use Policy"
 journal_if:       6.6
 cas_partition:  1区
+semantic_scholar_id: e5158cb8564665c2b2ff7b524a1d1e342211ab51
 pub_date:       "2023"
 abstract: >-
   Soil erosion in cropland areas is mainly influenced by agricultural activities and natural conditions. Previous

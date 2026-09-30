@@ -6,6 +6,7 @@ cover:         /assets/images/covers/geography-and-sustainability.jpg
 pub:            "Geography and Sustainability"
 journal_if:       9.8
 cas_partition:  1区
+semantic_scholar_id: af48f5eb6fd3ab4269d9a47430ed5cf31e4159c1
 pub_date:       "2025"
 abstract: >-
   Cropland is persistently affected by soil loss by water erosion in China, which causes economic loss and threatens soil health.

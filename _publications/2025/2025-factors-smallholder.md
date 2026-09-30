@@ -6,6 +6,7 @@ cover:         /assets/images/covers/environment-development-sustainability.jpg
 pub:            "Environment, Development and Sustainability"
 journal_if:       4.9
 cas_partition:  3区
+semantic_scholar_id: 6c42051d9e53c3ec5f6d45ab3f37fe1fd8b96bc7
 pub_date:       "2025"
 abstract: >-
   Understanding the engagement of smallholders in forest management requires a nuanced consideration of livelihood

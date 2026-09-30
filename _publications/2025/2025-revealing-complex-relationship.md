@@ -6,6 +6,7 @@ cover:         /assets/images/covers/environmental-impact-assessment-review.jpg
 pub:            "Environmental Impact Assessment Review"
 journal_if:       12.2
 cas_partition:  1区
+semantic_scholar_id: 4344289be6fbf6caa37728681a81de520e25c7ce
 pub_date:       "2025"
 abstract: >-
   Urbanization alters land use patterns, reducing soil erosion through surface hardening, while simultaneously increasing
