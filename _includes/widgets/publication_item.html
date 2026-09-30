@@ -17,7 +17,7 @@
         <div class="col-md-9 col-xl-10 p-3 pl-md-0">
             <h5 class="mt-0 mb-1 font-weight-normal">{{ item.title }}</h5>
             <p class="mt-0 mb-0 small">{% include widgets/author_list.html authors=item.authors %}</p>
-            <p class="mt-0 mb-0 small pub-meta">{{item.pub_pre}}<i>{{ item.pub }}</i>{{ item.pub_post }} {{ item.pub_date }} {{ item.pub_last }} <span data-semantic-scholar-id="{{ item.semantic_scholar_id }}"></span></p>
+            <p class="mt-0 mb-0 small pub-meta">{{item.pub_pre}}<i>{{ item.pub }}</i>{% if item.journal_if or item.cas_partition %}<span class="journal-metrics">{% if item.journal_if %}IF {{ item.journal_if }}{% endif %}{% if item.journal_if and item.cas_partition %} · {% endif %}{% if item.cas_partition %}中科院{{ item.cas_partition }}{% endif %}</span>{% endif %}{{ item.pub_post }} {{ item.pub_date }} {{ item.pub_last }} <span data-semantic-scholar-id="{{ item.semantic_scholar_id }}"></span></p>
             {% if doi_url %}
             <div class="pub-doi">doi <a href="{{ doi_url }}" target="_blank" rel="noopener">{{ doi_url | split: 'doi.org/' | last }}</a></div>
             {% endif %}
@@ -28,11 +28,14 @@
 
             <p class="small pb-0 mb-0 lh-125 text-muted abstract-links">
                 {% for link in item.links %}
+                {% assign lurl = link[1].url | default: link[1] %}
+                {% unless doi_url and lurl == doi_url %}
                 {% if link[1].url %}
                 <a target="{{ link[1]['target'] }}" href="{{ link[1]['url'] }}">[{{ link[0] | downcase }}]</a>
                 {% else %}
                 <a target="_blank" href="{{ link[1] }}">[{{ link[0] | downcase }}]</a>
                 {% endif %}
+                {% endunless %}
                 {% endfor %}
             </p>
 
@@ -49,7 +52,7 @@
     <div class="w-100 py-3 px-4">
         <h5 class="mt-0 mb-1 font-weight-normal">{{ item.title }}</h5>
         <p class="mt-0 mb-0 small">{% include widgets/author_list.html authors=item.authors %}</p>
-        <p class="mt-0 mb-0 small pub-meta">{{item.pub_pre}}<i>{{ item.pub }}</i>{{ item.pub_post }} {{ item.pub_date }} {{ item.pub_last }} <span data-semantic-scholar-id="{{ item.semantic_scholar_id }}"></span></p>
+        <p class="mt-0 mb-0 small pub-meta">{{item.pub_pre}}<i>{{ item.pub }}</i>{% if item.journal_if or item.cas_partition %}<span class="journal-metrics">{% if item.journal_if %}IF {{ item.journal_if }}{% endif %}{% if item.journal_if and item.cas_partition %} · {% endif %}{% if item.cas_partition %}中科院{{ item.cas_partition }}{% endif %}</span>{% endif %}{{ item.pub_post }} {{ item.pub_date }} {{ item.pub_last }} <span data-semantic-scholar-id="{{ item.semantic_scholar_id }}"></span></p>
         {% if doi_url %}
         <div class="pub-doi">doi <a href="{{ doi_url }}" target="_blank" rel="noopener">{{ doi_url | split: 'doi.org/' | last }}</a></div>
         {% endif %}
@@ -60,11 +63,14 @@
 
         <p class="small pb-0 mb-0 lh-125 text-muted abstract-links">
             {% for link in item.links %}
+            {% assign lurl = link[1].url | default: link[1] %}
+            {% unless doi_url and lurl == doi_url %}
             {% if link[1].url %}
             <a target="{{ link[1]['target'] }}" href="{{ link[1]['url'] }}">[{{ link[0] | downcase }}]</a>
             {% else %}
             <a target="_blank" href="{{ link[1] }}">[{{ link[0] | downcase }}]</a>
             {% endif %}
+            {% endunless %}
             {% endfor %}
         </p>
     </div>

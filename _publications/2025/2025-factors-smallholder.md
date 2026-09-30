@@ -4,6 +4,8 @@ date:           2025-10-28 00:00:00 +0800
 selected:       true
 cover:         /assets/images/covers/environment-development-sustainability.jpg
 pub:            "Environment, Development and Sustainability"
+journal_if:       4.9
+cas_partition:  3区
 pub_date:       "2025"
 abstract: >-
   Understanding the engagement of smallholders in forest management requires a nuanced consideration of livelihood

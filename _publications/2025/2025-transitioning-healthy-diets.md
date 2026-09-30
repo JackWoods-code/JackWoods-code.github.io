@@ -4,6 +4,8 @@ date:           2025-04-26 00:00:00 +0800
 selected:       true
 cover:         /assets/images/covers/nature-communications.jpg
 pub:            "Nature Communications"
+journal_if:       18.1
+cas_partition:  1区
 pub_date:       "2025"
 abstract: >-
   Switching to alternative global diets offers established benefits, but the challenges and opportunities for individual countries

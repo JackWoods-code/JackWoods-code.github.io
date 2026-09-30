@@ -436,6 +436,20 @@ h2[id] {
 /* 论文条目的数据行：期刊/年份、DOI、链接与展开控件均用等宽字体 */
 .pub-meta { font-family: var(--font-mono); font-size: 0.78rem; }
 
+/* 期刊度量标签：影响因子 + 中科院分区（数据来自各论文 front matter） */
+.journal-metrics {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-color);
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0.05em 0.45em;
+    margin-left: 0.45em;
+    white-space: nowrap;
+    vertical-align: 0.12em;
+}
+
 .pub-doi {
     font-family: var(--font-mono);
     font-size: 0.72rem;

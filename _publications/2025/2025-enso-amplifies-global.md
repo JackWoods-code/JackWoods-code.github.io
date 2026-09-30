@@ -4,6 +4,8 @@ date:           2025-12-04 00:00:00 +0800
 selected:       true
 cover:         /assets/images/covers/nature-communications.jpg
 pub:            "Nature Communications"
+journal_if:       18.1
+cas_partition:  1区
 pub_date:       "2025"
 abstract: >-
   A thorough understanding of vegetation resilience to climate variability is critical for sustaining ecosystem functions and

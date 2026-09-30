@@ -4,6 +4,8 @@ date:           2025-02-27 00:00:00 +0800
 selected:       true
 cover:         /assets/images/covers/environmental-science-technology.jpg
 pub:            "Environmental Science & Technology"
+journal_if:       10.8
+cas_partition:  1区
 pub_date:       "2025"
 abstract: >-
   The transition to renewable energy exacerbates direct land occupation by infrastructure, leading to habitat degradation and
