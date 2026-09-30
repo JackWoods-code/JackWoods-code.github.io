@@ -499,6 +499,11 @@ a.citation-metric:hover {
     color: var(--heading-color) !important;
 }
 
+/* 论文署名的 text-body（Bootstrap 强制 #212529）同理，深色下不可见 */
+[data-theme="dark"] .text-body {
+    color: var(--text-color) !important;
+}
+
 /* 404 终端 */
 .terminal-404 {
     font-family: var(--font-mono);
