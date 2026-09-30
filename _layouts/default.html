@@ -23,6 +23,14 @@
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
+        // 动效门控：所有"初始隐藏、事后揭示"的样式只挂在 .js 下，无 JS 时内容完整可见
+        document.documentElement.classList.add('js');
+        // 兜底：motion.js 若 3 秒内未成功运行（脚本加载失败等），强制还原全部动效初始态
+        setTimeout(function () {
+            if (!document.documentElement.hasAttribute('data-motion-on')) {
+                document.documentElement.classList.add('motion-off');
+            }
+        }, 3000);
     </script>
 </head>
 <body class="bg-light" {{ page.body_attr }}>
@@ -53,6 +61,7 @@
         });
     </script>
     <script src="{{ '/assets/js/common.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/motion.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/bubble_visual_hash.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/semantic_scholar_citation_count.js' | relative_url }}"></script>
     
@@ -61,7 +70,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
-            
+            // 主题切换时图标翻转半圈；累计角度让多次切换朝同一方向旋转
+            let iconRotation = 0;
+
             function updateIcon() {
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                 if (isDark) {
@@ -84,6 +95,8 @@
                     document.documentElement.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
                     updateIcon();
+                    iconRotation += 180;
+                    themeIcon.style.transform = `rotate(${iconRotation}deg)`;
                 });
             }
         });

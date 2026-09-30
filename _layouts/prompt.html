@@ -18,6 +18,8 @@
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
+        // 动效门控（404 打字机等）：无 JS 时内容保持完整可见
+        document.documentElement.classList.add('js');
     </script>
 </head>
 <style type="text/css">
