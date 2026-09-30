@@ -26,16 +26,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
       # CI 机器访问 gems.ruby-china.com 不稳定，统一镜像回 rubygems.org；
       # 仅写入 CI 工作目录的 .bundle/config，本地 Gemfile 不受影响
       - name: Configure bundler mirror for CI
         run: bundle config set --local mirror.https://gems.ruby-china.com/ https://rubygems.org
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true # 自动执行 bundle install 并缓存 gem
+      - name: Install gems
+        run: bundle install
 
       - name: Setup Pages
         id: pages
