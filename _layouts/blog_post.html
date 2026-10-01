@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ '/assets/css/global.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/blog.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/cyberpunk.css' | relative_url }}">
 
-    <!-- 避免暗黑模式页面加载时白屏闪烁 (FOUC) -->
+    <!-- 避免页面加载时主题闪烁 (FOUC)。夜班观测站：暗色为默认主题，
+             仅当用户显式选过浅色（localStorage.theme === 'light'）时保持浅色 -->
     <script>
         const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        if (savedTheme !== 'light') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
     </script>

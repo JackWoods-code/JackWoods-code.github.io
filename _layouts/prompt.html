@@ -10,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ '/assets/css/global.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/cyberpunk.css' | relative_url }}">
 
-    <!-- 避免暗黑模式页面加载时白屏闪烁 (FOUC) -->
+    <!-- 避免页面加载时主题闪烁 (FOUC)。夜班观测站：暗色为默认主题，
+             仅当用户显式选过浅色（localStorage.theme === 'light'）时保持浅色 -->
     <script>
         const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        if (savedTheme !== 'light') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
         // 动效门控（404 打字机等）：无 JS 时内容保持完整可见
