@@ -212,10 +212,17 @@ h1, h2, h3, h4, h5, h6,
 .blog-toc-title {
     font-size: 0.875rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    text-transform: none;
+    letter-spacing: 0.03em;
     color: var(--muted-color);
     margin-bottom: 0.75rem;
+}
+
+/* shell 提示符：$ 用强调色，命令用正文灰 */
+.blog-toc-title .toc-prompt {
+    color: var(--accent-color);
+    font-weight: 700;
 }
 
 .blog-toc-list {
@@ -230,6 +237,7 @@ h1, h2, h3, h4, h5, h6,
 
 .blog-toc-list a {
     display: block;
+    font-family: var(--font-mono);
     font-size: 0.8rem;
     line-height: 1.4;
     color: var(--muted-color);
@@ -248,13 +256,32 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 600;
 }
 
-.blog-toc-list .toc-h3 {
-    padding-left: 0.75rem;
+/* tree 形态目录：h2 = 目录（tree -F 的 / 后缀），h3/h4 = 文件。
+   层级由框线前缀承担，原缩进让位（清零）；
+   框线色走 --tick-color，两主题各自取色；
+   "组内最后一项用 └──" 由 li:has(+ li …) 判定，生成 JS 与 scrollspy 不动。
+   h4 规则按常见层级近似（│ 竖线列在父级非末项时成立）。 */
+.blog-toc-list .toc-h3 { padding-left: 0; }
+.blog-toc-list .toc-h4 { padding-left: 0; }
+
+.blog-toc-list a::before {
+    color: var(--tick-color);
+    white-space: pre;
 }
 
-.blog-toc-list .toc-h4 {
-    padding-left: 1.5rem;
-}
+.blog-toc-list li:not(:last-child) a.toc-h2::before { content: "├── "; }
+.blog-toc-list li:last-child a.toc-h2::before { content: "└── "; }
+.blog-toc-list a.toc-h2::after { content: "/"; }
+
+.blog-toc-list a.toc-h3::before { content: "│   ├── "; }
+.blog-toc-list li:has(+ li .toc-h2) a.toc-h3::before { content: "│   └── "; }
+.blog-toc-list li:not(:has(~ li .toc-h2)) a.toc-h3::before { content: "    ├── "; }
+.blog-toc-list li:not(:has(~ li .toc-h2)):last-child a.toc-h3::before { content: "    └── "; }
+
+.blog-toc-list a.toc-h4::before { content: "│   │   ├── "; }
+.blog-toc-list li:has(+ li .toc-h3) a.toc-h4::before,
+.blog-toc-list li:has(+ li .toc-h2) a.toc-h4::before { content: "│   │   └── "; }
+.blog-toc-list li:last-child a.toc-h4::before { content: "        └── "; }
 
 /* Hide TOC scrollbar */
 .blog-toc-nav::-webkit-scrollbar {
