@@ -1,0 +1,290 @@
+@charset "utf-8";
+
+/* ============================================================
+   Night Shift Terminal —— 赛博朋克覆盖层（B 方案）
+   叙事：白天野外采样（浅色"野外模式"，不在本文件管辖内），
+   夜里回站分析（暗色 = 默认主题，本层全部规则限定在
+   [data-theme="dark"] 作用域下）。整体回退 = 删掉三个布局里
+   的本文件 <link> + 还原 FOUC 脚本默认值。
+   强调色出处：叶绿磷光 = 品牌 token；青 / 品红 = 高光谱假彩色。
+   动效预算：零新增动画（全部是静态材质与 hover 反馈）。
+   ============================================================ */
+
+/* 1. 夜班 token：在 global.css 暗色 token 基础上加深、提纯、加霓虹 */
+[data-theme="dark"] {
+    --bg-color: #0A0F0C;         /* 带绿相的近黑森林夜 */
+    --panel-color: #121A14;      /* 不透明场景下的面板底 */
+    --panel-glass: rgba(18, 26, 20, 0.86);  /* 毛玻璃面板底 */
+    --text-color: #C7D3C9;
+    --heading-color: #E9F5EC;
+    --muted-color: #7E8C82;
+    --border-color: #243028;
+    --nav-bg: rgba(10, 15, 12, 0.78);
+    --accent-color: #3DC97E;     /* 叶绿磷光（品牌色不变） */
+    --accent-bg: rgba(61, 201, 126, 0.12);
+    --tick-color: #35523F;       /* 取景框刻度：暗铜绿 */
+
+    --neon-cyan: #3AE7FF;        /* 高光谱青：交互 / hover */
+    --neon-magenta: #FF4FA3;     /* 品红假彩色：仅 selection / focus */
+    --glow-green: 0 0 6px rgba(61, 201, 126, 0.65), 0 0 16px rgba(61, 201, 126, 0.25);
+    --glow-cyan: 0 0 6px rgba(58, 231, 255, 0.6), 0 0 16px rgba(58, 231, 255, 0.22);
+}
+
+/* 2. 夜幕底色：地平线处一点叶绿"城市辉光"，全站唯一的场景光 */
+[data-theme="dark"] body {
+    background-image:
+        radial-gradient(1100px 480px at 72% -8%, rgba(61, 201, 126, 0.07), transparent 62%),
+        radial-gradient(900px 420px at 12% 108%, rgba(58, 231, 255, 0.045), transparent 60%);
+}
+
+/* 3. CRT 屏幕层：静态扫描线 + 晕影，盖在最上层但不可交互 */
+[data-theme="dark"] body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.024) 0px,
+            rgba(255, 255, 255, 0.024) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.24) 100%);
+}
+
+@media print {
+    /* 打印是纸，不是屏幕：去掉扫描线与晕影 */
+    [data-theme="dark"] body::after { content: none; }
+}
+
+/* 4. 面板：磨砂观测屏 + 蓝图网格 + 霓虹取景框 */
+[data-theme="dark"] .card,
+[data-theme="dark"] .bg-white.shadow-sm {
+    background-color: var(--panel-glass) !important;
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+    box-shadow:
+        0 0 22px rgba(61, 201, 126, 0.06),
+        inset 0 0 46px rgba(61, 201, 126, 0.03) !important;
+}
+
+/* 蓝图网格：24px 方格，5% 磷光，衬在毛玻璃面板上 */
+[data-theme="dark"] .card,
+[data-theme="dark"] .bg-white.shadow-sm {
+    background-image:
+        linear-gradient(rgba(61, 201, 126, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(61, 201, 126, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* 四角取景框刻度：随 token 转暗铜绿，并整体泛出磷光 */
+[data-theme="dark"] .card::before,
+[data-theme="dark"] .bg-white.shadow-sm::before {
+    filter: drop-shadow(0 0 3px rgba(61, 201, 126, 0.55));
+}
+
+/* 5. 导航：底部 1px 霓虹渐变线（青 ↔ 叶绿），链接 hover 转青 */
+[data-theme="dark"] .navbar {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="dark"] .navbar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        transparent 4%,
+        rgba(61, 201, 126, 0.6) 32%,
+        rgba(58, 231, 255, 0.6) 68%,
+        transparent 96%
+    );
+}
+
+[data-theme="dark"] .navbar .nav-link:hover {
+    color: var(--neon-cyan) !important;
+    text-shadow: 0 0 9px rgba(58, 231, 255, 0.35);
+}
+
+[data-theme="dark"] .navbar .nav-link:hover {
+    /* 下划线滑入动画的背景色同步转青 */
+    background-image: linear-gradient(var(--neon-cyan), var(--neon-cyan));
+}
+
+[data-theme="dark"] .navbar .nav-item.active .nav-link {
+    color: var(--accent-color) !important;
+    text-shadow: 0 0 9px rgba(61, 201, 126, 0.3);
+}
+
+[data-theme="dark"] .navbar-brand {
+    text-shadow: 0 0 12px rgba(61, 201, 126, 0.28);
+}
+
+/* 6. 链接与交互反馈：hover 一律转高光谱青 */
+[data-theme="dark"] .card a:hover,
+[data-theme="dark"] main a:hover {
+    color: var(--neon-cyan);
+}
+
+[data-theme="dark"] a:has(.fab):hover .fab,
+[data-theme="dark"] a:has(.ai):hover .ai {
+    color: var(--accent-color) !important;
+    filter: drop-shadow(0 0 5px rgba(61, 201, 126, 0.6));
+}
+
+[data-theme="dark"] a.citation-metric:hover,
+[data-theme="dark"] .journal-metric {
+    /* 徽章 hover 底色沿用 accent-bg，边框泛光即可，不转青 */
+    text-shadow: none;
+}
+
+/* 观测铭牌：signal-dot 带呼吸辉光（opacity 动画会让光一起呼吸） */
+[data-theme="dark"] .signal-dot {
+    box-shadow:
+        0 0 6px rgba(61, 201, 126, 0.75),
+        0 0 14px rgba(61, 201, 126, 0.35);
+}
+
+/* 博客标签等通用 badge-light：更安静的灰绿铭牌，把磷光绿留给数据 */
+[data-theme="dark"] .badge.badge-light {
+    background: rgba(199, 211, 201, 0.06);
+    color: var(--muted-color);
+    border: 1px solid rgba(126, 140, 130, 0.35);
+}
+
+/* 徽章终端化：白底小贴纸 → 暗底磷光描边小铭牌（IF / 中科院分区 / citations） */
+[data-theme="dark"] .badge.badge-light.journal-metric {
+    background: rgba(61, 201, 126, 0.07);
+    color: var(--accent-color);
+    border: 1px solid rgba(61, 201, 126, 0.28);
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+[data-theme="dark"] a.badge.citation-metric:hover {
+    background: rgba(61, 201, 126, 0.16);
+    border-color: rgba(61, 201, 126, 0.55);
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+}
+
+/* Publications 年份导航：激活点的磷光加重 */
+[data-theme="dark"] #navbar-year .nav-link.active::before {
+    box-shadow:
+        0 0 8px rgba(61, 201, 126, 0.55),
+        0 0 0 3px var(--accent-bg);
+}
+
+/* 7. 标题铭牌化：姓名与面板内标题转等宽字（终端身份） */
+[data-theme="dark"] .card-body .h4.text-center {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+[data-theme="dark"] .card h5,
+[data-theme="dark"] .card .h5,
+[data-theme="dark"] .card h6,
+[data-theme="dark"] .card .h6 {
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+}
+
+/* 8. 终端细节：selection 品红、焦点环青、滚动条暗铜绿 */
+[data-theme="dark"] ::selection {
+    background: rgba(255, 79, 163, 0.82);
+    color: #0A0F0C;
+}
+
+[data-theme="dark"] :focus-visible {
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 2px;
+}
+
+[data-theme="dark"] {
+    scrollbar-color: #2C4436 #0A0F0C;
+}
+
+[data-theme="dark"]::-webkit-scrollbar { width: 10px; height: 10px; }
+[data-theme="dark"]::-webkit-scrollbar-track { background: #0A0F0C; }
+[data-theme="dark"]::-webkit-scrollbar-thumb {
+    background: #2C4436;
+    border-radius: 5px;
+}
+[data-theme="dark"]::-webkit-scrollbar-thumb:hover { background: #3DC97E; }
+
+/* 9. 签名动效：姓名进站 glitch（全站唯一的开场动效，一次性 0.66s）
+   触发挂在 data-boot 上电（.is-booted 落地）之后，随面板淡入一起完成"信号锁定"。
+   三重安全门：无 JS（.js 不存在）伪元素不可见；motion.js 失败（.is-booted 不落地）
+   不触发；prefers-reduced-motion 直接禁用。伪元素默认 opacity:0，故障层只在动画期间可见。 */
+[data-theme="dark"] .glitch-name {
+    position: relative;
+}
+
+[data-theme="dark"] .glitch-name::before,
+[data-theme="dark"] .glitch-name::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .glitch-name::before { color: var(--neon-magenta); }
+[data-theme="dark"] .glitch-name::after { color: var(--neon-cyan); }
+
+@media (prefers-reduced-motion: no-preference) {
+
+    .js [data-boot].is-booted .glitch-name {
+        animation: glitch-flicker 0.66s steps(1, end) 0.15s both;
+    }
+
+    .js [data-boot].is-booted .glitch-name::before {
+        animation: glitch-slice-magenta 0.66s steps(1, end) 0.15s both;
+    }
+
+    .js [data-boot].is-booted .glitch-name::after {
+        animation: glitch-slice-cyan 0.66s steps(1, end) 0.15s both;
+    }
+}
+
+@keyframes glitch-flicker {
+    0% { opacity: 1; }
+    7% { opacity: 0.3; }
+    12% { opacity: 1; }
+    26% { opacity: 0.65; }
+    31% { opacity: 1; }
+    55% { opacity: 0.85; }
+    59% { opacity: 1; }
+}
+
+/* 品红层：错位切片向左抖 */
+@keyframes glitch-slice-magenta {
+    0% { opacity: 0.9; clip-path: inset(8% 0 64% 0); transform: translate(-3px, 1px); }
+    11% { clip-path: inset(56% 0 12% 0); transform: translate(-2px, -1px); }
+    23% { clip-path: inset(28% 0 46% 0); transform: translate(-4px, 0); }
+    37% { clip-path: inset(74% 0 4% 0); transform: translate(-1.5px, 0); }
+    52% { clip-path: inset(2% 0 84% 0); transform: translate(-1px, 0); }
+    68% { opacity: 0.7; clip-path: inset(40% 0 40% 0); transform: translate(-0.5px, 0); }
+    100% { opacity: 0; clip-path: inset(50% 0 50% 0); transform: none; }
+}
+
+/* 青层：错位切片向右抖，与品红互补 */
+@keyframes glitch-slice-cyan {
+    0% { opacity: 0.9; clip-path: inset(62% 0 10% 0); transform: translate(3px, -1px); }
+    11% { clip-path: inset(10% 0 66% 0); transform: translate(2px, 1px); }
+    23% { clip-path: inset(48% 0 26% 0); transform: translate(4px, 0); }
+    37% { clip-path: inset(6% 0 72% 0); transform: translate(1.5px, 0); }
+    52% { clip-path: inset(80% 0 2% 0); transform: translate(1px, 0); }
+    68% { opacity: 0.7; clip-path: inset(36% 0 44% 0); transform: translate(0.5px, 0); }
+    100% { opacity: 0; clip-path: inset(50% 0 50% 0); transform: none; }
+}

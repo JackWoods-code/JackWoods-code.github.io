@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+/* ============================================================
+   Field Manual —— 浅色主题的 Linux 印刷文化覆盖层（A 档 + tree）
+   叙事：白天在野外翻手册（本层：man page / tree / shell 的纸上形态），
+   夜里回站开终端（cyberpunk.css，另一个时区，互不感知）。
+   全部规则限定在 html:not([data-theme="dark"]) 作用域，暗色零影响。
+   零新增动画。整体回退 = 删掉布局里的本文件 <link>。
+   ============================================================ */
+
+/* 1. 标题 man 化：姓名与面板标题转等宽字，与夜班模式共享终端字身份
+      （节标题下的细分隔线由既有的 .border-bottom 承担，不再叠加） */
+html:not([data-theme="dark"]) .card-body .h4.text-center {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+html:not([data-theme="dark"]) .card h5,
+html:not([data-theme="dark"]) .card .h5,
+html:not([data-theme="dark"]) .card h6,
+html:not([data-theme="dark"]) .card .h6 {
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+}
+
+/* 2. man 页眉：JW(1) ─ Field Manual ─ JW(1)，暗色下整体隐藏 */
+.man-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted-color);
+    margin-bottom: 0.4rem;
+}
+
+html[data-theme="dark"] .man-header { display: none; }
+
+/* 3. 反色选区：xterm 反选的印刷版（墨底纸字） */
+html:not([data-theme="dark"]) ::selection {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* 4. tree 列表（Blogs 页）：年份面板开左侧滑轨，卡片挂 ├──/└── */
+html:not([data-theme="dark"]) .bg-white.shadow-sm:has(> .blog-card) {
+    padding-left: 2.75rem !important; /* 需 !important 压过 Bootstrap 的 p-0 */
+}
+
+html:not([data-theme="dark"]) .blog-card::before {
+    content: "├──";
+    position: absolute;
+    left: -2.05rem;
+    top: 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--tick-color);
+    white-space: pre;
+}
+
+html:not([data-theme="dark"]) .blog-card:last-child::before {
+    content: "└──";
+}
+
+/* 5. tree 列表（首页 Blogs 卡）：年份下的标题行挂 ├──/└── */
+html:not([data-theme="dark"]) .media-body > .my-1.d-flex::before {
+    content: "├──";
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--tick-color);
+    margin-right: 0.45rem;
+}
+
+html:not([data-theme="dark"]) .media-body > .my-1.d-flex:last-child::before {
+    content: "└──";
+}

@@ -394,14 +394,6 @@ h2[id] {
     font-weight: 600;
 }
 
-.panel-status-dot {
-    flex: 0 0 auto;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--muted-color);
-}
-
 /* 个人格言：面板最底部 */
 .panel-motto {
     margin-top: 0.9rem;
