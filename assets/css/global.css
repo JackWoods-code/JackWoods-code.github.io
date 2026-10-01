@@ -380,7 +380,7 @@ h2[id] {
 
 /* 观测面板铭牌：等宽小字，数值加强调色层次 */
 .panel-status {
-    margin-top: 1.25rem;
+    margin-top: 0.6rem;
     padding-top: 0.9rem;
     border-top: 1px solid var(--border-color);
     font-family: var(--font-mono);
