@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/global.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/blog.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/cyberpunk.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/field-manual.css' | relative_url }}">
 
     <!-- 避免页面加载时主题闪烁 (FOUC)。夜班观测站：暗色为默认主题，
              仅当用户显式选过浅色（localStorage.theme === 'light'）时保持浅色 -->
@@ -35,6 +36,7 @@
     <main class="flex-grow-1">
         <div class="blog-layout-wrapper">
             <div class="blog-main">
+                {% include man-header.html %}
                 <article class="bg-white shadow-sm rounded-xl p-4 mb-4">
                     <header class="mb-4">
                         <h1 class="display-4 mb-3">{{ page.title }}</h1>
